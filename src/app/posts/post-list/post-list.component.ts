@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import {MatExpansionModule} from '@angular/material/expansion'
-import { ReplaySubject, takeUntil } from "rxjs";
+import { ReplaySubject, catchError, of, takeUntil } from "rxjs";
 import { Post } from "src/app/models/post.type";
 import { PostService } from "src/app/services/posts/posts.service";
 
@@ -26,7 +26,11 @@ export class PostListComponent implements OnInit, OnDestroy {
 	constructor(private postService: PostService) {}
 
 	ngOnInit(): void {
-		this.posts = this.postService.getPosts();
+		this.postService.getPosts().pipe(
+			catchError(error => of([] as Post[])),
+			takeUntil(this.destroyed$)
+		)
+		.subscribe();
 		this.postService.getPostUpdatedListener()
 			.pipe(
 				takeUntil(this.destroyed$)

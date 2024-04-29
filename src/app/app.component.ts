@@ -5,6 +5,7 @@ import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { Post } from './models/post.type';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   standalone: true,
@@ -13,7 +14,8 @@ import { Post } from './models/post.type';
     RouterModule,
     PostCreateComponent,
     HeaderComponent,
-    PostListComponent
+    PostListComponent,
+    HttpClientModule
     
   ],
   selector: 'fe-mean-root',
